@@ -1,0 +1,14 @@
+//imported from google fonts
+@import url('https://fonts.googleapis.com/css2?family=Mozilla+Headline:wght@200..700&family=Mozilla+Text:wght@200..700&display=swap');
+
+$sunsetGold: rgb(250, 214, 9);
+$sunsetPurple: rgb(174, 7, 174);
+$sunsetBlue: rgb(37, 37, 167);
+$sunsetBlack:rgb(61, 60, 60);
+
+html, body{
+    background: linear-gradient(to right top, $sunsetGold, $sunsetPurple, $sunsetBlue, $sunsetBlack);
+    height:100%;
+    font-family: 'Mozilla Header';
+    color: #fff;
+}
