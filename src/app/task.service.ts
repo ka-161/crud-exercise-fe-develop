@@ -14,8 +14,23 @@ export class TaskService {
 
   //to fetch all tasklists
   getAllTaskLists(): Observable<TaskListModel[]>{
-    return this.apiConfService.get('tasklists');
+    return this.apiConfService.getTaskLists('tasklists');
   }
+
+/*  //to fetch all tasks
+  getAllTasks(): Observable<taskModel[]>{
+    return this.apiConfService.getTasks('tasks');
+  }
+    */
+
+  //potential error
+  //fetch all tasks inside a task list object // http://localhost:3000/tasklists/6889ea9e6f0f37380199209c/tasks/
+  getAllTasksForTaskList(taskListId: string)
+  {
+    return this.apiConfService.getTasks(`tasklists/${taskListId}/tasks`);//dynamic string concatenation
+  }
+
+
 //potential error
   //create tasklistBUcket
   createTaskList(title:string){
@@ -23,12 +38,6 @@ export class TaskService {
     return this.apiConfService.post('tasklists', data);
   }
 
-  //potential error
-  //fetch all tasks inside a task list object // http://localhost:3000/tasklists/6889ea9e6f0f37380199209c/tasks/
-  getAllTasksForTaskList(taskListId: string)
-  {
-    return this.apiConfService.get(`tasklists/${taskListId}/tasks`);//dynamic string concatenation
-  }
 
   //create task in specific task list object - potential error, value can be both different title
   createTaskInsideATaskList(taskListId: string, title: string){
@@ -37,19 +46,19 @@ export class TaskService {
   }
 
   //delete tasklist
-  deleteTaskList(taskListId: string){
-    return this.apiConfService.delete(`tasklists/${taskListId}`);
+  deleteTaskList(taskListId: string): Observable<TaskListModel>{
+    return this.apiConfService.deleteTaskList(`tasklists/${taskListId}`);
   }
 
     //delete specific task in specific tasklist - potential error - duplicate variable name title
-  deleteTaskFromTaskList(taskListId: string, taskId: string){
-    return this.apiConfService.delete(`tasklists/${taskListId}/tasks/${taskId}`);
+  deleteTaskFromTaskList(taskListId: string, taskId: string): Observable<taskModel>{
+    return this.apiConfService.deleteTask(`tasklists/${taskListId}/tasks/${taskId}`);
   }
 
   //update task status completed yes no
-  updateTaskStatus(taskListId: string, taskObject: taskModel){
+  updateTaskStatus(taskListId: string, taskObject: taskModel): Observable<taskModel>{
     //constant created w changed status, then returned as data in url sth sth
-    let updateData= {'completed': !taskObject.completed };// ! toggles value
+    let updateData= {'completed': !taskObject.completed };// ! toggles value --> boolean - changes prior status to opposite
     return this.apiConfService.patch(`tasklists/${taskListId}/tasks/${taskObject._id}`, updateData);
   }
 }

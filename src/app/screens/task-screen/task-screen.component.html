@@ -11,22 +11,18 @@
                 </div>
                 <div class="col-6 ">
                     <!-- TODO: position button - gpt says its because of float and should use flex instead...-->
-                    <button type="button" class="btn btn-secondary float-end">Add New TaskList</button>
+                    <button type="button" class="btn btn-secondary float-end" routerLink="/new-task-list">Add New TaskList</button>
                 </div>
                 <div class="row">
                     <div class="col-12">
-
-                        <ul class="list-group">
-                             <!-- TODO: position items, 100 percent or swomething, to align with gloat end -->
-                           <li *ngFor = "let item of taskLists" class="list-group-item d-flex justify-content-between align-items-center">
-                             {{item.title}}
-                            <span class="badge bg-danger rounded-pill">X</span>
-                            </li>
-                        </ul>
+                        <!--replacing anchor with angular directive-->
+                        <a [routerLink]="['/task-list', item._id ]" routerLinkActive="active"
+                        *ngFor = "let item of taskLists"
+                        class="list-group-item list-group-item-action" aria-current="true">
+                        {{item.title}}
+                            <span class="badge bg-danger rounded-pill" (click) = "deleteTaskList(item)" >X</span>
+                        </a>    
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -38,25 +34,26 @@
                     <h3 class="fw-bold float-start">Linked Tasks</h3>
                 </div>
                 <div class="col-6  ">
-                    <button type="button" class="btn btn-secondary float-end">Add New Task</button>
+                    <button type="button" class="btn btn-secondary float-end" (click)="addNewTask()">Add New Task</button>
                 </div>
                 <div class="row">
                     <div class="col-12">
 
                         <ul class="list-group">
                                                 <!-- TODO: position items, 100 percent or swomething, to align with gloat end -->
-<!--                                got these from https://getbootstrap.com/docs/5.0/components/list-group/-->
-                            <li *ngFor="let item of tasks" class="list-group-item d-flex justify-content-between align-items-center">
-                                {{item.title}}
-                                <span class="badge bg-danger rounded-pill">X</span>
+<!--                                got these from https://getbootstrap.com/docs/5.0/components/list-group/
+                                (click) is called event handling here, taskClicked(task) method created here, needs to be brought to component task-screen.component.ts here
+                                
+                                dynamic styling below-->
+                            <li [class.mark-completed] = "task.completed==true"
+                            style="cursor: pointer;" *ngFor="let task of tasks" (click) ="taskClicked(task)"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                                {{task.title}}
+                                <span (click)="deleteTask(task)" class="badge bg-danger rounded-pill">X</span>
                             </li>
                         </ul>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
-
     </div>
